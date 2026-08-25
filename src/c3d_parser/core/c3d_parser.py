@@ -231,7 +231,7 @@ def parse_dynamic_trial(c3d_file, lab, output_directory, trial_index, marker_dat
     write_event_data(events, output_file_name, output_directory)
 
     # Disable spatio-temporal analysis for running gait.
-    s_t_data = {}
+    s_t_data = pd.DataFrame()
     if not running_gait:
         s_t_data = calculate_spatiotemporal_data(frame_data, events, static_data)
 
@@ -1572,6 +1572,9 @@ def write_spatiotemporal_data(data, selected_trials, output_directory):
             new_df.insert(2, "Cycle-Number", cycle_id[1].astype(int))
 
             frames.append(new_df)
+
+    if not frames:
+        return
 
     # Write header.
     with open(output_file, "w") as file:
