@@ -36,7 +36,7 @@ class CancelException(Exception):
 
 torso_markers = ["C7", "T2", "T10", "MAN"]
 required_markers = [{"LASI", "RASI"}, {"LKNE", "RKNE"}, {"LANK", "RANK"}, {"LMED", "RMED"}, {"LHEE", "RHEE"},
-                    ({"LPSI", "RPSI"}, {"SACR"}), ({"LKNEM", "RKNEM"}, {"LKAX", "RKAX"})]
+                    {"LTOE", "RTOE"}, ({"LPSI", "RPSI"}, {"SACR"}), ({"LKNEM", "RKNEM"}, {"LKAX", "RKAX"})]
 
 
 def parse_session(static_trial, dynamic_trials, input_directory, output_directory, lab, marker_diameter, static_data,
