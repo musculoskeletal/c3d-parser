@@ -1292,6 +1292,12 @@ def write_normalised_grfs(grf_data, selected_trials, excluded_cycles, output_dir
         os.makedirs(normalised_directory)
     output_file = os.path.join(normalised_directory, f"combined_grf.csv")
     columns = ['anterior_posterior', 'medial_lateral', 'vertical']
+
+    # Reorder GRF data to match UI.
+    grf_data = {foot: {file_name: {cycle_number: cycle_data[[0, 2, 1]] for cycle_number, cycle_data in cycles.items()}
+                       for file_name, cycles in files_dict.items()}
+                for foot, files_dict in grf_data.items()}
+
     write_normalised_data(grf_data, columns, selected_trials, excluded_cycles, output_file)
 
 
