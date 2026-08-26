@@ -473,11 +473,13 @@ def harmonise_markers(frame_data, lab, required_markers):
     for item in required_markers:
         if isinstance(item, set):
             if not item.issubset(available):
-                raise ParserError(f"Required markers ({item}) missing from trial. "
+                names = {marker_set[name] for name in item}
+                raise ParserError(f"Required markers ({names}) missing. "
                                   f"Please ensure you are using the correct marker set.")
         elif isinstance(item, tuple):
             if not any(group.issubset(available) for group in item):
-                raise ParserError(f"Required markers (one of: {item}) missing from trial. "
+                names = tuple({marker_set[name] for name in group} for group in item)
+                raise ParserError(f"Required markers (one of: {names}) missing. "
                                   f"Please ensure you are using the correct marker set.")
 
 
