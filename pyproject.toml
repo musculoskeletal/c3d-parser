@@ -26,7 +26,7 @@ version = {attr = "c3d_parser.__version__"}
 dependencies = {file = ["requirements.txt"]}
 
 [project.urls]
-Repository = "https://github.com/tsalemink/C3D-parser"
+Repository = "https://github.com/musculoskeletal/c3d-parser"
 
 [project.gui-scripts]
 c3d_parser = "c3d_parser.application:main"
