@@ -1232,9 +1232,13 @@ class GaitCurves(defaultdict):
         self._canvas.draw()
 
     def include_all(self):
+        identifiers = []
         for file_name, cycles in self.items():
+            identifiers.extend((file_name, cycle) for cycle in cycles)
             self.include_trial(file_name)
         self._selected_curves = []
+
+        self.signals.cycles_included.emit(identifiers)
 
     def include_trial(self, file_name):
         for cycle in self[file_name].keys():
@@ -1295,9 +1299,13 @@ class GaitCurves(defaultdict):
         self._canvas.draw()
 
     def exclude_all(self):
+        identifiers = []
         for file_name, cycles in self.items():
+            identifiers.extend((file_name, cycle) for cycle in cycles)
             self.exclude_trial(file_name)
         self._selected_curves = []
+
+        self.signals.cycles_excluded.emit(identifiers)
 
     def exclude_trial(self, file_name):
         for cycle in self[file_name].keys():
