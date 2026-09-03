@@ -373,6 +373,7 @@ class MainWindow(QMainWindow):
         if directory_valid:
             self._scan_directory()
 
+            self._clear_curves()
             self._reset_grf_plots()
             self._reset_kinematic_plots()
             self._reset_kinetic_plots()
@@ -626,6 +627,7 @@ class MainWindow(QMainWindow):
     def _parse_finished(self, result):
         self._grf_data, self._kinematic_data, self._kinetic_data, self._s_t_data, self._deidentified_file_names = result
 
+        self._clear_curves()
         self._visualise_grf_data(self._grf_data)
         self._visualise_kinematic_data(self._kinematic_data)
         self._visualise_kinetic_data(self._kinetic_data)
@@ -695,6 +697,11 @@ class MainWindow(QMainWindow):
 
         logger.info(f"Final outputs written to {self._output_directory}.")
         self._progress_tracker.progress.emit(f"Final outputs written to {self._output_directory}", "green")
+
+    def _clear_curves(self):
+        self._grf_curves.clear()
+        self._kinematic_curves.clear()
+        self._kinetic_curves.clear()
 
     def _reset_grf_plots(self):
         self._plot_x.clear()
@@ -1314,6 +1321,16 @@ class GaitCurves(defaultdict):
 
     def get_excluded_cycles(self):
         return self._excluded_cycles
+
+    def clear(self):
+        for cursor in self._cursors.values():
+            cursor.remove()
+        self._cursors = {}
+
+        self._selected_curves = []
+        self._excluded_cycles = set()
+
+        super().clear()
 
     def clear_selected(self):
         for (file_name, cycle) in self._selected_curves:
