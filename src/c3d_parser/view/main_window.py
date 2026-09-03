@@ -117,6 +117,10 @@ class MainWindow(QMainWindow):
         self._kinematic_curves.signals.cycles_included.connect(self._grf_curves.include_cycles)
         self._kinetic_curves.signals.cycles_excluded.connect(self._grf_curves.exclude_cycles)
         self._kinetic_curves.signals.cycles_included.connect(self._grf_curves.include_cycles)
+        self._kinematic_curves.signals.cycles_excluded.connect(self._update_cycle_count)
+        self._kinematic_curves.signals.cycles_included.connect(self._update_cycle_count)
+        self._kinetic_curves.signals.cycles_excluded.connect(self._update_cycle_count)
+        self._kinetic_curves.signals.cycles_included.connect(self._update_cycle_count)
 
     def _setup_progress_bar(self):
         self._progress_text = ""
@@ -344,6 +348,8 @@ class MainWindow(QMainWindow):
         self._ui.lineEditInputDirectory.textChanged.connect(self._validate_input_directory)
         self._ui.lineEditOutputDirectory.textChanged.connect(self._validate_directory)
         self._ui.listWidgetFiles.itemChanged.connect(self._update_plot_visibility)
+        self._ui.tabWidget.currentChanged.connect(self._update_cycle_count)
+        self._ui.listWidgetFiles.itemChanged.connect(self._update_cycle_count)
         self._ui.pushButtonInputDirectoryChooser.clicked.connect(self._open_input_directory_chooser)
         self._ui.pushButtonOutputDirectoryChooser.clicked.connect(self._open_output_directory_chooser)
         self._ui.pushButtonParseData.clicked.connect(self._parse_c3d_data)
@@ -635,6 +641,7 @@ class MainWindow(QMainWindow):
         self._visualise_model()
 
         self._show_selected_trials()
+        self._update_cycle_count()
         logger.info("Process completed successfully.")
         self._progress_tracker.progress.emit("Process completed successfully", "green")
 
@@ -879,6 +886,30 @@ class MainWindow(QMainWindow):
         for i in range(self._ui.listWidgetFiles.count()):
             item = self._ui.listWidgetFiles.item(i)
             self._update_plot_visibility(item)
+
+    def _update_cycle_count(self):
+        def update_count(data, curves):
+            excluded_cycles = curves.get_excluded_cycles()
+            selected_trials = self._get_selected_trials()
+
+            counts = defaultdict(int)
+            for foot, files_dict in data.items():
+                for file_name, cycles in files_dict.items():
+                    if file_name not in selected_trials:
+                        continue
+                    for cycle_number in cycles:
+                        if (file_name, f"{foot}_{cycle_number}") not in excluded_cycles:
+                            counts[foot] += 1
+
+            self._ui.labelCount.setText(f"Cycles: L {counts['Left']} / R {counts['Right']}")
+
+        tab = self._ui.tabWidget.currentWidget()
+        if tab == self._ui.tabKinematic:
+            update_count(self._kinematic_data, self._kinematic_curves)
+        elif tab == self._ui.tabKinetic:
+            update_count(self._kinetic_data, self._kinetic_curves)
+        else:
+            self._ui.labelCount.setText("")
 
     def _get_selected_trials(self):
         selected_trials = []
