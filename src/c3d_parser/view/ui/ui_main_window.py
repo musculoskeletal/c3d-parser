@@ -637,6 +637,11 @@ class Ui_MainWindow(object):
         self.horizontalLayout_7.setSpacing(8)
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
         self.horizontalLayout_7.setContentsMargins(6, 1, 16, -1)
+        self.labelCount = QLabel(self.frameVisualisation)
+        self.labelCount.setObjectName(u"labelCount")
+
+        self.horizontalLayout_7.addWidget(self.labelCount)
+
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_7.addItem(self.horizontalSpacer)
@@ -766,6 +771,7 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"Description", None));
         self.checkBoxSuppressWarnings.setText(QCoreApplication.translate("MainWindow", u"Suppress warnings", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabLog), QCoreApplication.translate("MainWindow", u"Log", None))
+        self.labelCount.setText("")
         self.labelProgress.setText("")
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
         self.menuView.setTitle(QCoreApplication.translate("MainWindow", u"View", None))
