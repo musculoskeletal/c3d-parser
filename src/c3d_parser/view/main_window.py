@@ -398,6 +398,8 @@ class MainWindow(QMainWindow):
         self._ui.pushButtonParseData.setEnabled(input_directory_valid and output_directory_valid)
         self._ui.pushButtonFinalise.setEnabled(False)
 
+        self._ui.labelCount.setVisible(not (input_directory_valid and output_directory_valid))
+
         return input_directory_valid
 
     def _open_input_directory_chooser(self):
@@ -644,6 +646,8 @@ class MainWindow(QMainWindow):
         self._update_cycle_count()
         logger.info("Process completed successfully.")
         self._progress_tracker.progress.emit("Process completed successfully", "green")
+
+        self._ui.labelCount.setVisible(True)
 
         self._ui.pushButtonParseData.setEnabled(True)
         self._ui.pushButtonFinalise.setEnabled(True)
