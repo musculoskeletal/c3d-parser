@@ -808,8 +808,6 @@ class MainWindow(QMainWindow):
                 plot.set_ylim(-15, 75)
             elif i == 7:
                 plot.set_ylim(-50, 30)
-            elif i == 9:
-                plot.set_ylim(-30, 30)
             else:
                 plot.set_ylim(-30, 30)
             plot.axhline(y=0, color='gray', linewidth=1.0, zorder=1)
