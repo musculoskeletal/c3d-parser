@@ -1617,13 +1617,13 @@ def add_medial_knee_markers(frame_data, left_knee_width, right_knee_width, marke
     This function takes a pandas.DataFrame of TRC data, extracts a single frame from the data
     and adds the medial knee markers if they are missing. It returns the frame as a pandas.Series.
 
-    The ``padding`` argument should include skin-padding as well as the thickness of the
-    baseplate used to attach the markers.
+    The ``padding`` values are the thickness of the baseplate used to attach the markers. Knee
+    widths are measured over the skin.
     """
     frame = frame_data.iloc[len(frame_data) // 2].copy()
 
-    medial_padding = 6
-    lateral_padding = 4
+    medial_padding = 2
+    lateral_padding = 2
 
     for side in ['L', 'R']:
         medial_label = f'{side}KNEM'
@@ -1637,7 +1637,7 @@ def add_medial_knee_markers(frame_data, left_knee_width, right_knee_width, marke
             magnitude = np.sqrt((np.array(axix_vector) ** 2.0).sum(-1))
             knee_axis = np.divide(axix_vector, magnitude)
 
-            # Adjust knee width to account for marker-radius, skin-padding.
+            # Adjust knee width to account for marker-radius, baseplate.
             knee_width = left_knee_width if side == 'L' else right_knee_width
             knee_width = knee_width + marker_diameter + medial_padding + lateral_padding
             medial_marker = lateral_marker + knee_width * knee_axis
@@ -1654,7 +1654,7 @@ def create_osim_model(static_trc, dynamic_trc, static_marker_data, marker_diamet
     rotation_matrix = np.array([[1, 0, 0], [0, 0, 1], [0, -1, 0]])
     static_marker_data = {k: np.dot(rotation_matrix, v) for k, v in static_marker_data.items()}
     subject_info = get_subject_info(static_data)
-    marker_radius = marker_diameter / 2
+    marker_radius = marker_diameter / 2 + 2
 
     model_path = create_model(static_trc, dynamic_trc, output_directory, static_marker_data, subject_info,
                               marker_radius, left_foot_flat, right_foot_flat,
