@@ -74,6 +74,12 @@
 				<!--Weight given to the task when solving inverse kinematics problems, default is 0.-->
 				<weight>1</weight>
 			</IKMarkerTask>
+			<IKMarkerTask name="SACR">
+				<!--Whether or not this task will be used during inverse kinematics solve, default is true.-->
+				<apply>true</apply>
+				<!--Weight given to the task when solving inverse kinematics problems, default is 0.-->
+				<weight>2</weight>
+			</IKMarkerTask>
 			<IKMarkerTask name="RHEE">
 				<!--Whether or not this task will be used during inverse kinematics solve, default is true.-->
 				<apply>true</apply>
