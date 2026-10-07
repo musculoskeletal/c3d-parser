@@ -127,16 +127,26 @@ def approximate_anthropometrics(c3d_file, lab, marker_diameter):
 
 def calculate_anthropometrics(frame_data, marker_diameter):
 
-    def distance(frame, landmark_1, landmark_2):
-        return round(np.linalg.norm(np.array(frame[landmark_1]) - np.array(frame[landmark_2])), 1)
+    def distance(frame, landmark_1, landmark_2, marker_diameter=0):
+        missing = [landmark for landmark in (landmark_1, landmark_2) if landmark not in frame]
+        if missing:
+            logger.warn(f"Unable to approximate distance between {landmark_1} and {landmark_2}. "
+                        f"Missing marker(s): {', '.join(missing)}.")
+            return 0
+
+        point_1 = np.array(frame[landmark_1])
+        point_2 = np.array(frame[landmark_2])
+        length = round(np.linalg.norm(point_1 - point_2), 1)
+
+        return length - marker_diameter
 
     mid_frame = frame_data.iloc[len(frame_data) // 2].copy()
 
     anthropometrics = {
-        'left_knee_width': distance(mid_frame, 'LKNE', 'LKNEM') - marker_diameter,
-        'right_knee_width': distance(mid_frame, 'RKNE', 'RKNEM') - marker_diameter,
-        'left_ankle_width': distance(mid_frame, 'LANK', 'LMED')  - marker_diameter,
-        'right_ankle_width': distance(mid_frame, 'RANK', 'RMED')  - marker_diameter,
+        'left_knee_width': distance(mid_frame, 'LKNE', 'LKNEM', marker_diameter),
+        'right_knee_width': distance(mid_frame, 'RKNE', 'RKNEM', marker_diameter),
+        'left_ankle_width': distance(mid_frame, 'LANK', 'LMED', marker_diameter),
+        'right_ankle_width': distance(mid_frame, 'RANK', 'RMED', marker_diameter),
         'left_leg_length': distance(mid_frame, 'LASI', 'LMED'),
         'right_leg_length': distance(mid_frame, 'RASI', 'RMED'),
         'inter_asis_distance': distance(mid_frame, 'LASI', 'RASI'),
