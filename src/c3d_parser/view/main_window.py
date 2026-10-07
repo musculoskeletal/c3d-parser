@@ -123,7 +123,6 @@ class MainWindow(QMainWindow):
         self._kinetic_curves.signals.cycles_included.connect(self._update_cycle_count)
 
     def _setup_progress_bar(self):
-        self._progress_text = ""
         self._progress_value = 0
         self._ui.progressBar.setVisible(False)
 
@@ -159,7 +158,6 @@ class MainWindow(QMainWindow):
         self._plotter.clear_actors()
 
     def _clear_progress_bar(self):
-        self._progress_text = ""
         self._ui.labelProgress.setText("")
         self._progress_value = 0
         self._ui.progressBar.setValue(0)
@@ -678,7 +676,6 @@ class MainWindow(QMainWindow):
 
     def _update_progress(self, message, color):
         self._ui.labelProgress.setText(message)
-        self._progress_text = message
         self._ui.labelProgress.setStyleSheet(f"color: {color};")
 
         self._progress_value = min(self._progress_value + 20, 100)
