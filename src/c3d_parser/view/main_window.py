@@ -17,7 +17,7 @@ from ll_visualiser.visualiser import visualise_model
 
 from c3d_parser.core.c3d_parser import (parse_session, extract_static_data, extract_marker_names, is_dynamic,
     CancelException, write_normalised_grfs, write_normalised_kinematics, write_normalised_kinetics,
-    write_spatiotemporal_data, approximate_anthropometrics)
+    write_spatiotemporal_data, approximate_anthropometrics, height_to_mm)
 from c3d_parser.settings.general import (APPLICATION_NAME, VERSION, DEFAULT_STYLE_SHEET, INVALID_STYLE_SHEET,
                                          get_marker_maps_dir)
 from c3d_parser.view.ui.ui_main_window import Ui_MainWindow
@@ -476,8 +476,7 @@ class MainWindow(QMainWindow):
 
         # Check height units.
         height = self._ui.doubleSpinBoxHeight.value()
-        if height < 250:
-            self._ui.doubleSpinBoxHeight.setValue(height * 10)
+        self._ui.doubleSpinBoxHeight.setValue(height_to_mm(height))
 
 
     def _clear_subject_info(self):
@@ -577,10 +576,6 @@ class MainWindow(QMainWindow):
             'Right Leg Length': self._ui.doubleSpinBoxRightLegLength.value(),
         }
 
-        # Cap age at 18.
-        # Current shape model is paediatric only, ages over 18 can give strange results.
-        static_data['Age'] = min(static_data['Age'], 18)
-
         missing = [key for key, value in static_data.items() if not value]
         if 'Left Leg Length' in missing or 'Right Leg Length' in missing:
             reply = QMessageBox.warning(self, "Warning", "Leg length measurements missing. You can continue "
@@ -593,10 +588,6 @@ class MainWindow(QMainWindow):
             missing = [key for key in missing if key not in ('Left Leg Length', 'Right Leg Length')]
         if missing:
             QMessageBox.warning(self, "Warning", "Subject measurements missing:\n- " + "\n- ".join(missing))
-            return
-
-        if static_data['Height'] < 300:
-            QMessageBox.warning(self, "Warning", "Please ensure subject height is in mm.")
             return
 
         optimise_knee_axis = self._optimise_knee_axis

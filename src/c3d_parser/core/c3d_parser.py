@@ -38,11 +38,15 @@ torso_markers = ["C7", "T2", "T10", "MAN"]
 required_markers = [{"LASI", "RASI"}, {"LKNE", "RKNE"}, {"LANK", "RANK"}, {"LMED", "RMED"}, {"LHEE", "RHEE"},
                     {"LTOE", "RTOE"}, ({"LPSI", "RPSI"}, {"SACR"}), ({"LKNEM", "RKNEM"}, {"LKAX", "RKAX"})]
 
+required_measurements = ['Sex', 'Age', 'Height', 'Weight', 'ASIS Width', 'Left Knee Width', 'Right Knee Width',
+                         'Left Ankle Width', 'Right Ankle Width']
+
 
 def parse_session(static_trial, dynamic_trials, input_directory, output_directory, lab, marker_diameter, static_data,
                   left_foot_flat, right_foot_flat, toe_marker_proximal, optimise_knee_axis, filter_trc, filter_grf,
                   ik_task_set, running_gait, progress_tracker):
 
+    validate_static_data(static_data)
     clear_directory(output_directory)
 
     logger.info(f"Processing session {os.path.normpath(input_directory)}.")
@@ -1696,3 +1700,23 @@ def get_subject_info(static_data):
         'right_malleolar_width'
     ])
     return info
+
+
+def height_to_mm(height):
+    if 0 < height < 300:
+        logger.info(f"Subject height ({height}) assumed to be in cm. Converting to mm.")
+        return height * 10
+
+    return height
+
+
+def validate_static_data(static_data):
+    missing = [key for key in required_measurements if not static_data.get(key)]
+    if missing:
+        raise ParserError("Subject measurements missing:\n- " + "\n- ".join(missing))
+
+    static_data['Height'] = height_to_mm(static_data['Height'])
+
+    # Cap age at 18.
+    # Current shape model is paediatric only, ages over 18 can give strange results.
+    static_data['Age'] = min(static_data['Age'], 18)
