@@ -59,7 +59,7 @@ these classifications by right-clicking on the item in question. You can exclude
 from the analysis by using the check-boxes provided.
 
 <p align="center">
-  <img src="res/images/Inputs.png" alt="Inputs Screenshot"/>
+  <img src="https://raw.githubusercontent.com/musculoskeletal/c3d-parser/main/res/images/Inputs.png" alt="Inputs Screenshot"/>
 </p>
 
 You can also specify an "Output" directory if you wish. By default, an output structure will be
@@ -72,7 +72,7 @@ filled using the metadata in your static C3D file. Confirm these values are accu
 any gaps.
 
 <p align="center">
-  <img src="res/images/Anthropometrics.png" alt="Anthropometrics Screenshot"/>
+  <img src="https://raw.githubusercontent.com/musculoskeletal/c3d-parser/main/res/images/Anthropometrics.png" alt="Anthropometrics Screenshot"/>
 </p>
 
 
@@ -85,7 +85,7 @@ The visualisation tab displays the generated model and the predicted landmark po
 these against the (skin-padding adjusted) experimental marker positions.
 
 <p align="center">
-  <img src="res/images/Visualiser.png" alt="Visualiser Screenshot"/>
+  <img src="https://raw.githubusercontent.com/musculoskeletal/c3d-parser/main/res/images/Visualiser.png" alt="Visualiser Screenshot"/>
 </p>
 
 
@@ -105,12 +105,12 @@ select "Exclude Selected Cycles". Similarly, it is also possible to exclude/incl
 sections of data for specific trials by right-clicking on the trial name in the list of trials.
 
 <p align="center">
-  <img src="res/images/Exclusion_01.png" alt="Exclusion 01"/>
-  <img src="res/images/Exclusion_02.png" alt="Exclusion 02"/>
+  <img src="https://raw.githubusercontent.com/musculoskeletal/c3d-parser/main/res/images/Exclusion_01.png" alt="Exclusion 01"/>
+  <img src="https://raw.githubusercontent.com/musculoskeletal/c3d-parser/main/res/images/Exclusion_02.png" alt="Exclusion 02"/>
 </p>
 <p align="center">
-  <img src="res/images/Exclusion_03.png" alt="Exclusion 03"/>
-  <img src="res/images/Exclusion_04.png" alt="Exclusion 04"/>
+  <img src="https://raw.githubusercontent.com/musculoskeletal/c3d-parser/main/res/images/Exclusion_03.png" alt="Exclusion 03"/>
+  <img src="https://raw.githubusercontent.com/musculoskeletal/c3d-parser/main/res/images/Exclusion_04.png" alt="Exclusion 04"/>
 </p>
 
 The "Spatio-temporal" tab supports exclusions in the same manner.
@@ -124,7 +124,7 @@ User settings are available under _View_ -> _Options_.
 All settings are retained after you close the application.
 
 <p align="center">
-  <img src="res/images/Options.png" alt="Options Screenshot"/>
+  <img src="https://raw.githubusercontent.com/musculoskeletal/c3d-parser/main/res/images/Options.png" alt="Options Screenshot"/>
 </p>
 
 **File**  
@@ -150,7 +150,7 @@ please deselect these options.
 **Inverse Kinematics**  
 If you wish to define custom marker weights, you may do so by providing your own IK task set file.
 Please follow the format used in the C3D-Parser
-[default IK task set](src/c3d_parser/core/osim_resources/ik_task_set.xml).
+[default IK task set](https://github.com/musculoskeletal/c3d-parser/blob/main/src/c3d_parser/core/osim_resources/ik_task_set.xml).
 
 
 ## Custom Marker Sets
@@ -160,7 +160,7 @@ not fit your needs you can adjust one of the existing marker sets or create a ne
 using the custom marker set dialog under "Marker" -> "Custom Marker Set".
 
 <p align="center">
-  <img src="res/images/Custom_Marker_Set.png" alt="Custom Marker Set Screenshot"/>
+  <img src="https://raw.githubusercontent.com/musculoskeletal/c3d-parser/main/res/images/Custom_Marker_Set.png" alt="Custom Marker Set Screenshot"/>
 </p>
 
 You can import an initial mapping from one of the existing marker sets using the "Import" button.
