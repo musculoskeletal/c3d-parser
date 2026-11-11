@@ -2,6 +2,7 @@
 import os
 import sys
 import shutil
+import importlib.metadata
 
 from PySide6 import QtCore
 from PySide6.QtNetwork import QLocalSocket, QLocalServer
@@ -18,6 +19,17 @@ INVALID_STYLE_SHEET = 'background-color: rgba(239, 0, 0, 50)'
 
 script_directory = os.path.dirname(os.path.abspath(__file__))
 internal_maps_dir = os.path.join(script_directory, 'marker_maps')
+
+
+def get_version(module_name):
+    try:
+        return importlib.metadata.version(module_name)
+    except importlib.metadata.PackageNotFoundError:
+        try:
+            mod = importlib.import_module(module_name)
+            return getattr(mod, "__version__", "N/A")
+        except ModuleNotFoundError:
+            return "N/A"
 
 
 def set_applications_settings(app):

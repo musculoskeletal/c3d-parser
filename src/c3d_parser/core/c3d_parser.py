@@ -22,7 +22,7 @@ from c3d_parser.core.utils import clear_directory
 from c3d_parser.core.osim import perform_ik, perform_id, calculate_foot_progression_angles
 from c3d_parser.settings.general import get_marker_maps_dir
 from c3d_parser.settings.logging import logger
-from c3d_parser.settings.general import VERSION
+from c3d_parser.settings.general import VERSION, get_version
 
 
 class ParserError(Exception):
@@ -261,7 +261,8 @@ def write_c3d_parser_history(input_directory, output_directory, lab, static_tria
         with open(log_path, "w", encoding="utf-8") as f:
             f.write("C3D-Parser History\n")
             f.write(f"Last Run: {timestamp}\n")
-            f.write(f"C3D-Parser Version: {VERSION}\n\n")
+            f.write(f"C3D-Parser Version: {VERSION}\n")
+            f.write(f"OpenSim Model Creator Version: {get_version('opensim-model-creator')}\n\n")
 
             f.write(f"Lab: {lab}\n")
             f.write(f"Static trial: {static_trial}\n\n")

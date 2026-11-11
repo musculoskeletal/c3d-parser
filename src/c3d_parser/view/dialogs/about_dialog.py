@@ -1,13 +1,12 @@
 
 import os
-import importlib
 
 from PySide6 import QtWidgets
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
 
 from c3d_parser import __version__
-from c3d_parser.settings.general import APPLICATION_NAME
+from c3d_parser.settings.general import APPLICATION_NAME, get_version
 
 
 class AboutDialog(QtWidgets.QDialog):
@@ -40,18 +39,8 @@ class AboutDialog(QtWidgets.QDialog):
         table.setRowCount(len(packages))
         for row, (display_name, import_name) in enumerate(packages):
             name_item = QtWidgets.QTableWidgetItem(display_name)
-            version_item = QtWidgets.QTableWidgetItem(self.get_version(import_name))
+            version_item = QtWidgets.QTableWidgetItem(get_version(import_name))
             table.setItem(row, 0, name_item)
             table.setItem(row, 1, version_item)
         table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
         layout.addWidget(table)
-
-    def get_version(self, module_name):
-        try:
-            return importlib.metadata.version(module_name)
-        except importlib.metadata.PackageNotFoundError:
-            try:
-                mod = importlib.import_module(module_name)
-                return getattr(mod, "__version__", "N/A")
-            except ModuleNotFoundError:
-                return "N/A"
