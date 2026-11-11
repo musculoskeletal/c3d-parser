@@ -1353,7 +1353,8 @@ def write_normalised_kinetics(kinetic_data, selected_trials, excluded_cycles, ou
 
 def write_normalised_data(data, column_names, selected_trials, excluded_cycles, output_file):
     with open(output_file, 'w') as file:
-        file.write(f"C3D-Parser Version:, {VERSION}\n\n\n")
+        file.write(f"C3D-Parser Version:, {VERSION}\n")
+        file.write(f"OpenSim Model Creator Version:, {get_version('opensim-model-creator')}\n\n\n")
         file.write(','.join(["Trial", "Side", "Cycle-Number", "Frame"] + column_names) + '\n\n')
 
         for foot, files_dict in data.items():
@@ -1612,7 +1613,8 @@ def write_spatiotemporal_data(data, selected_trials, output_directory):
 
     # Write header.
     with open(output_file, "w") as file:
-        file.write(f"C3D-Parser Version:, {VERSION}\n\n\n")
+        file.write(f"C3D-Parser Version:, {VERSION}\n")
+        file.write(f"OpenSim Model Creator Version:, {get_version('opensim-model-creator')}\n\n\n")
 
     combined_data_frame = pd.concat(frames, ignore_index=True)
     combined_data_frame.round(3).to_csv(output_file, index=False, mode="a")
