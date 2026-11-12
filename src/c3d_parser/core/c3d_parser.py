@@ -406,6 +406,7 @@ def de_identify_c3d(file_path, output_directory, output_file_name):
 
         de_identify_string_array('SUBJECTS', 'NAMES')
         de_identify_string_array('ANALYSIS', 'SUBJECTS')
+        de_identify_string_array('EVENT', 'SUBJECTS')
 
     with open(os.path.join(output_directory, f"{output_file_name}.c3d"), 'wb') as handle:
         writer.write(handle)
