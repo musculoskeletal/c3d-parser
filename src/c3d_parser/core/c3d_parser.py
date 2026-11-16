@@ -253,14 +253,17 @@ def parse_dynamic_trial(c3d_file, lab, output_directory, trial_index, marker_dat
 
 
 def write_c3d_parser_history(input_directory, output_directory, lab, static_trial, deidentified_file_names, static_data,
-                             left_foot_flat, right_foot_flat, toe_marker_proximal):
-    log_path = os.path.join(input_directory, "c3d_parser_history.log")
+                             left_foot_flat, right_foot_flat, toe_marker_proximal, app_name="C3D-Parser",
+                             app_version=None):
+    log_path = os.path.join(input_directory, f"{app_name.lower().replace('-', '_')}_history.log")
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
 
     try:
         with open(log_path, "w", encoding="utf-8") as f:
-            f.write("C3D-Parser History\n")
+            f.write(f"{app_name} History\n")
             f.write(f"Last Run: {timestamp}\n")
+            if app_version:
+                f.write(f"{app_name} Version: {app_version}\n")
             f.write(f"C3D-Parser Version: {VERSION}\n")
             f.write(f"OpenSim Model Creator Version: {get_version('opensim-model-creator')}\n\n")
 
@@ -310,7 +313,7 @@ def write_c3d_parser_history(input_directory, output_directory, lab, static_tria
                     f.write(f"{key}: {value} mm\n")
 
     except (OSError, IOError):
-        raise ParserError("Could not write c3d_parser_history.log")
+        raise ParserError(f"Could not write {os.path.basename(log_path)}")
 
 
 def define_metrics_and_measurements(output_directory):
